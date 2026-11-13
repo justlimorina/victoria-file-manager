@@ -678,6 +678,16 @@ update_places (NautilusGtkPlacesSidebar *sidebar)
 
   /* add built-in places */
 
+#ifdef G_OS_WIN32
+  start_icon = g_themed_icon_new_with_default_fallbacks ("computer-symbolic");
+  add_place (sidebar, NAUTILUS_GTK_PLACES_BUILT_IN,
+             NAUTILUS_GTK_PLACES_SECTION_DEFAULT_LOCATIONS,
+             _("This PC"), start_icon, NULL, SCHEME_COMPUTER ":///",
+             NULL, NULL, NULL, NULL, 0,
+             _("Open This PC"));
+  g_object_unref (start_icon);
+#endif
+
   /* home folder */
   home_uri = get_home_directory_uri ();
   start_icon = g_themed_icon_new_with_default_fallbacks (ICON_NAME_HOME);

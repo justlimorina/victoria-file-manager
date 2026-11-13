@@ -128,6 +128,10 @@ nautilus_view_get_icon_name (guint view_id)
     {
         return "view-list-symbolic";
     }
+    else if (view_id == NAUTILUS_VIEW_COMPUTER_ID)
+    {
+        return "computer-symbolic";
+    }
     else
     {
         return NULL;
@@ -152,6 +156,14 @@ nautilus_view_get_tooltip (guint view_id)
     else if (view_id == NAUTILUS_VIEW_LIST_ID || view_id == NAUTILUS_VIEW_NETWORK_ID)
     {
         return _("List View");
+    }
+    else if (view_id == NAUTILUS_VIEW_COMPUTER_ID)
+    {
+#ifdef G_OS_WIN32
+        return _("This PC");
+#else
+        return _("Computer");
+#endif
     }
     else
     {

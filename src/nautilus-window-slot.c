@@ -39,6 +39,7 @@
 #include "nautilus-view.h"
 #include "nautilus-x-content-bar.h"
 #include "nautilus-win32-recycle-bin.h"
+#include "nautilus-computer-view.h"
 
 #include <glib/gi18n.h>
 #include <adwaita.h>
@@ -269,13 +270,18 @@ nautilus_window_slot_get_view_for_location (NautilusWindowSlot *self,
     {
         /* If there is already a view, just use the view mode that it's currently using */
         view_id = nautilus_view_get_view_id (self->content_view);
-        if (view_id == NAUTILUS_VIEW_NETWORK_ID)
+        if (view_id == NAUTILUS_VIEW_NETWORK_ID || view_id == NAUTILUS_VIEW_COMPUTER_ID)
         {
             view_id = self->view_mode_before_network;
         }
     }
 
-    if (nautilus_file_is_network_view (file))
+    if (g_file_has_uri_scheme (location, SCHEME_COMPUTER))
+    {
+        self->view_mode_before_network = view_id;
+        view_id = NAUTILUS_VIEW_COMPUTER_ID;
+    }
+    else if (nautilus_file_is_network_view (file))
     {
         self->view_mode_before_network = view_id;
         view_id = NAUTILUS_VIEW_NETWORK_ID;
@@ -299,6 +305,10 @@ nautilus_window_slot_get_view_for_location (NautilusWindowSlot *self,
     if (nautilus_window_slot_content_view_matches (self, view_id))
     {
         view = self->content_view;
+    }
+    else if (view_id == NAUTILUS_VIEW_COMPUTER_ID)
+    {
+        view = NAUTILUS_VIEW (nautilus_computer_view_new (self));
     }
     else
     {
@@ -373,7 +383,8 @@ nautilus_window_slot_sync_actions (NautilusWindowSlot *self)
 
     /* Files view mode */
     view = nautilus_window_slot_get_current_view (self);
-    is_network_view = nautilus_view_get_view_id (view) == NAUTILUS_VIEW_NETWORK_ID;
+    is_network_view = nautilus_view_get_view_id (view) == NAUTILUS_VIEW_NETWORK_ID ||
+                      nautilus_view_get_view_id (view) == NAUTILUS_VIEW_COMPUTER_ID;
     action = g_action_map_lookup_action (G_ACTION_MAP (self->slot_action_group), "files-view-mode");
     g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !is_network_view);
     if (g_action_get_enabled (action))
@@ -1618,6 +1629,13 @@ begin_location_change (NautilusWindowSlot         *self,
     save_selection_for_history (self);
 
     /* Get the info needed to make decisions about how to open the new location */
+    if (g_file_has_uri_scheme (location, SCHEME_COMPUTER))
+    {
+        NautilusView *view = nautilus_window_slot_get_view_for_location (self, location);
+        setup_view (self, view);
+        return;
+    }
+
     self->determine_view_file = nautilus_file_get (location);
     g_assert (self->determine_view_file != NULL);
 
@@ -3281,6 +3299,12 @@ nautilus_window_slot_get_icon_name (NautilusWindowSlot *self)
         }
         break;
 
+        case NAUTILUS_VIEW_COMPUTER_ID:
+        {
+            return nautilus_view_get_icon_name (NAUTILUS_VIEW_COMPUTER_ID);
+        }
+        break;
+
         default:
         {
             return NULL;
@@ -3317,6 +3341,12 @@ nautilus_window_slot_get_tooltip (NautilusWindowSlot *self)
         case NAUTILUS_VIEW_NETWORK_ID:
         {
             return nautilus_view_get_tooltip (NAUTILUS_VIEW_NETWORK_ID);
+        }
+        break;
+
+        case NAUTILUS_VIEW_COMPUTER_ID:
+        {
+            return nautilus_view_get_tooltip (NAUTILUS_VIEW_COMPUTER_ID);
         }
         break;
 

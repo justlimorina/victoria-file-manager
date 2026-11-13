@@ -125,4 +125,6 @@ Fork the repository, create a focused branch, and submit a pull request. Please 
 
 Victoria is derived from GNOME Files (Nautilus), developed by the GNOME Foundation and its contributors. Victoria-specific work is maintained in the [Victoria repository](https://github.com/justlimorina/victoria-files-manager).
 
+The "This PC / My Computer" (`computer:///`) view layout is inspired by [nautilus-my-computer](https://github.com/yannmasoch/nautilus-my-computer) by Yann Masoch (MIT License).
+
 The project is licensed under the [GNU General Public License, version 3 or later](LICENSE).

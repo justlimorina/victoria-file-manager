@@ -179,6 +179,8 @@ libnautilus_sources = [
   'nautilus-network-directory.h',
   'nautilus-network-view.c',
   'nautilus-network-view.h',
+  'nautilus-computer-view.c',
+  'nautilus-computer-view.h',
   'nautilus-new-folder-dialog.c',
   'nautilus-new-folder-dialog.h',
   'nautilus-compress-dialog.c',

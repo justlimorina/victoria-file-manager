@@ -125,4 +125,6 @@ Hãy fork repository, tạo một nhánh có phạm vi rõ ràng rồi gửi pul
 
 Victoria được phát triển dựa trên GNOME Files (Nautilus), sản phẩm của GNOME Foundation và cộng đồng đóng góp. Phần thay đổi dành cho Victoria được duy trì tại [repository Victoria](https://github.com/justlimorina/victoria-files-manager).
 
+Bố cục màn hình "This PC / My Computer" (`computer:///`) được lấy cảm hứng từ [nautilus-my-computer](https://github.com/yannmasoch/nautilus-my-computer) của Yann Masoch (MIT License).
+
 Dự án được phát hành theo [GNU General Public License, phiên bản 3 hoặc mới hơn](LICENSE).
