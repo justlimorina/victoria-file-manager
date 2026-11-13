@@ -829,7 +829,11 @@ nautilus_application_activate (GApplication *app)
     g_debug ("Calling activate");
 
     files = g_malloc0 (2 * sizeof (GFile *));
+#ifdef G_OS_WIN32
+    files[0] = g_file_new_for_uri (SCHEME_COMPUTER ":///");
+#else
     files[0] = g_file_new_for_path (g_get_home_dir ());
+#endif
     nautilus_application_open (app, files, 1, NULL);
 
     g_object_unref (files[0]);
@@ -885,7 +889,11 @@ nautilus_application_handle_file_args (NautilusApplication *self,
     }
     else if (g_variant_dict_contains (options, "new-window"))
     {
+#ifdef G_OS_WIN32
+        file = g_file_new_for_uri (SCHEME_COMPUTER ":///");
+#else
         file = g_file_new_for_path (g_get_home_dir ());
+#endif
         g_ptr_array_add (file_array, file);
     }
     else
