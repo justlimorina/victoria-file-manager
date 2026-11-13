@@ -4,4 +4,4 @@ set "PATH=%ROOT%build\libnautilus-extension;%ROOT%build\subprojects\gnome-autoar
 set "GSETTINGS_SCHEMA_DIR=%ROOT%build\data"
 set "GDK_BACKEND=win32"
 
-"%ROOT%build\src\victoria.exe" %*
+"%ROOT%build\src\victoria-files.exe" %*

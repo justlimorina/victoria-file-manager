@@ -7,7 +7,7 @@
 
 [English](README.md) · [Kho mã GitHub](https://github.com/justlimorina/victoria-files-manager)
 
-Victoria là bản port hướng đến Windows của [GNOME Files (Nautilus)](https://gitlab.gnome.org/GNOME/nautilus). Dự án giữ lại trải nghiệm quản lý tệp bằng GTK4 và Libadwaita, đồng thời thay các phần tích hợp Linux quan trọng bằng cơ chế native của Windows. Victoria nhắm đến Windows 10/11 64-bit và tạo ra tệp thực thi `victoria.exe`.
+Victoria là bản port hướng đến Windows của [GNOME Files (Nautilus)](https://gitlab.gnome.org/GNOME/nautilus). Dự án giữ lại trải nghiệm quản lý tệp bằng GTK4 và Libadwaita, đồng thời thay các phần tích hợp Linux quan trọng bằng cơ chế native của Windows. Victoria nhắm đến Windows 10/11 64-bit và tạo ra tệp thực thi `victoria-files.exe`.
 
 ## Điểm nổi bật
 
@@ -59,7 +59,7 @@ meson setup build --buildtype=release -Dtests=none
 meson compile -C build
 ```
 
-Tệp thực thi được tạo tại `build/src/victoria.exe`.
+Tệp thực thi được tạo tại `build/src/victoria-files.exe`.
 
 ### Build từ PowerShell
 
@@ -71,7 +71,7 @@ $env:CHERE_INVOKING = 'yes'
 & C:\msys64\usr\bin\bash.exe -lc 'cd /d/Projects/victoria && ninja -C build'
 ```
 
-Thay `/d/Projects/victoria` bằng đường dẫn checkout của bạn. Hãy đóng Victoria trước khi build lại: Windows sẽ khóa `victoria.exe` đang chạy nên linker không thể ghi đè tệp đó.
+Thay `/d/Projects/victoria` bằng đường dẫn checkout của bạn. Hãy đóng Victoria trước khi build lại: Windows sẽ khóa `victoria-files.exe` đang chạy nên linker không thể ghi đè tệp đó.
 
 ### Cấu hình lại hoặc build sạch
 
@@ -109,7 +109,7 @@ Có thể truyền thư mục cần mở ở cuối lệnh, ví dụ:
 
 | Hạng mục | Cách Victoria triển khai |
 | --- | --- |
-| File thực thi | `victoria.exe` trên Win32 GTK backend |
+| File thực thi | `victoria-files.exe` trên Win32 GTK backend |
 | Application ID | `org.victoria.Victoria` |
 | Ổ đĩa và volume | `GWin32VolumeMonitor` và Win32 drive APIs |
 | Liên kết ứng dụng | Windows Shell và file association đã đăng ký |

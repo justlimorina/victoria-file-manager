@@ -13,7 +13,7 @@
 
 2. **Project Identity & Rebranding:**
    - Project Name: **Victoria**
-   - Executable Name: `victoria.exe`
+   - Executable Name: `victoria-files.exe`
    - Application ID: `org.victoria.Victoria`
    - GSettings Schema ID: `org.victoria` (replacing `org.gnome.nautilus`)
    - User-facing Display Name: **Victoria** (or *Victoria Files*)

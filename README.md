@@ -7,7 +7,7 @@
 
 [Tiếng Việt](README_vi.md) · [GitHub repository](https://github.com/justlimorina/victoria-files-manager)
 
-Victoria is a Windows-focused port of [GNOME Files (Nautilus)](https://gitlab.gnome.org/GNOME/nautilus). It keeps the GTK4 and Libadwaita file-manager experience while replacing key Linux integrations with Windows-native equivalents. It targets 64-bit Windows 10 and Windows 11 and builds as `victoria.exe`.
+Victoria is a Windows-focused port of [GNOME Files (Nautilus)](https://gitlab.gnome.org/GNOME/nautilus). It keeps the GTK4 and Libadwaita file-manager experience while replacing key Linux integrations with Windows-native equivalents. It targets 64-bit Windows 10 and Windows 11 and builds as `victoria-files.exe`.
 
 ## Highlights
 
@@ -59,7 +59,7 @@ meson setup build --buildtype=release -Dtests=none
 meson compile -C build
 ```
 
-The executable is created at `build/src/victoria.exe`.
+The executable is created at `build/src/victoria-files.exe`.
 
 ### Build from PowerShell
 
@@ -71,7 +71,7 @@ $env:CHERE_INVOKING = 'yes'
 & C:\msys64\usr\bin\bash.exe -lc 'cd /d/Projects/victoria && ninja -C build'
 ```
 
-Replace `/d/Projects/victoria` with your checkout path. Close Victoria before rebuilding; Windows locks a running `victoria.exe` and the linker cannot overwrite it.
+Replace `/d/Projects/victoria` with your checkout path. Close Victoria before rebuilding; Windows locks a running `victoria-files.exe` and the linker cannot overwrite it.
 
 ### Reconfigure or clean a build
 
@@ -109,7 +109,7 @@ To pass a location, append it to either command, for example:
 
 | Area | Victoria implementation |
 | --- | --- |
-| Executable | `victoria.exe` on the Win32 GTK backend |
+| Executable | `victoria-files.exe` on the Win32 GTK backend |
 | Application ID | `org.victoria.Victoria` |
 | Drives and volumes | `GWin32VolumeMonitor` and Win32 drive APIs |
 | File associations | Windows Shell and registered file associations |

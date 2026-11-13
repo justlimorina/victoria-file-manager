@@ -4,4 +4,4 @@ $env:PATH = "$Root\build\libnautilus-extension;$Root\build\subprojects\gnome-aut
 $env:GSETTINGS_SCHEMA_DIR = "$Root\build\data"
 $env:GDK_BACKEND = "win32"
 
-& "$Root\build\src\victoria.exe" $args
+& "$Root\build\src\victoria-files.exe" $args

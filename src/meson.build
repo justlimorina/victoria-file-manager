@@ -328,7 +328,7 @@ libnautilus_dep = declare_dependency(
 )
 
 victoria = executable(
-  'victoria',
+  'victoria-files',
   'nautilus-main.c',
   dependencies: libnautilus_dep,
   install: true
