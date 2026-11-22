@@ -758,6 +758,28 @@ editable_changed_callback (GtkEntry *entry,
     nautilus_location_entry_update_action (NAUTILUS_LOCATION_ENTRY (entry));
 }
 
+static gboolean
+completion_match_func (GtkEntryCompletion *completion,
+                       const char         *key,
+                       GtkTreeIter        *iter,
+                       gpointer            user_data)
+{
+    GtkTreeModel *model = gtk_entry_completion_get_model (completion);
+    g_autofree char *item = NULL;
+    g_autofree char *key_fold = NULL;
+    g_autofree char *item_fold = NULL;
+
+    gtk_tree_model_get (model, iter, 0, &item, -1);
+    if (item == NULL || key == NULL)
+    {
+        return FALSE;
+    }
+
+    key_fold = g_utf8_casefold (key, -1);
+    item_fold = g_utf8_casefold (item, -1);
+    return g_str_has_prefix (item_fold, key_fold);
+}
+
 static void
 nautilus_location_entry_init (NautilusLocationEntry *entry)
 {
@@ -813,6 +835,7 @@ nautilus_location_entry_init (NautilusLocationEntry *entry)
     priv->completion = gtk_entry_completion_new ();
     priv->completions_store = gtk_list_store_new (1, G_TYPE_STRING);
     gtk_entry_completion_set_model (priv->completion, GTK_TREE_MODEL (priv->completions_store));
+    gtk_entry_completion_set_match_func (priv->completion, completion_match_func, NULL, NULL);
 
     g_object_set (priv->completion,
                   "text-column", 0,

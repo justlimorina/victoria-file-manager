@@ -3,3 +3,4 @@ subprojects/.wraplock
 .*/
 !.gitlab/
 !.agents/
+dist/
