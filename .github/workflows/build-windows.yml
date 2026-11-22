@@ -1,0 +1,80 @@
+name: Build Windows (MSYS2 UCRT64)
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSYS2 UCRT64
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-meson
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-pkgconf
+            mingw-w64-ucrt-x86_64-gtk4
+            mingw-w64-ucrt-x86_64-libadwaita
+            mingw-w64-ucrt-x86_64-glib2
+            mingw-w64-ucrt-x86_64-gsettings-desktop-schemas
+            mingw-w64-ucrt-x86_64-libxml2
+            mingw-w64-ucrt-x86_64-libarchive
+            mingw-w64-ucrt-x86_64-gexiv2
+            mingw-w64-ucrt-x86_64-gstreamer
+            mingw-w64-ucrt-x86_64-zlib
+
+      - name: Configure and compile with Meson
+        run: |
+          meson setup build --buildtype=release -Dtests=none -Dcloudproviders=false -Dintrospection=false -Dpackagekit=false
+          meson compile -C build
+
+      - name: Bundle portable Windows package
+        shell: pwsh
+        run: |
+          C:\msys64\ucrt64\bin\python3.exe build-aux/windows/bundle.py `
+            --source-dir . `
+            --build-dir build `
+            --output-dir dist/Victoria `
+            --msys-prefix C:/msys64/ucrt64
+          Compress-Archive -Path dist/Victoria/* -DestinationPath dist/victoria-files-win64-portable.zip -Force
+
+      - name: Build Inno Setup installer
+        shell: pwsh
+        run: |
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup -y
+          }
+          & $iscc build-aux/windows/victoria.iss
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: victoria-files-win64
+          path: |
+            dist/victoria-files-win64-portable.zip
+            dist/victoria-files-*-win64-setup.exe
+
+      - name: Attach to GitHub Release on tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/victoria-files-win64-portable.zip
+            dist/victoria-files-*-win64-setup.exe
