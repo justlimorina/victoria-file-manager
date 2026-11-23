@@ -45,13 +45,16 @@ jobs:
           meson compile -C build
 
       - name: Bundle portable Windows package
+        run: |
+          python3 build-aux/windows/bundle.py \
+            --source-dir . \
+            --build-dir build \
+            --output-dir dist/Victoria \
+            --msys-prefix "$(cygpath -w "$MINGW_PREFIX")"
+
+      - name: Compress portable archive
         shell: pwsh
         run: |
-          C:\msys64\ucrt64\bin\python3.exe build-aux/windows/bundle.py `
-            --source-dir . `
-            --build-dir build `
-            --output-dir dist/Victoria `
-            --msys-prefix C:/msys64/ucrt64
           Compress-Archive -Path dist/Victoria/* -DestinationPath dist/victoria-files-win64-portable.zip -Force
 
       - name: Build Inno Setup installer
